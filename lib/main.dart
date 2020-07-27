@@ -43,7 +43,13 @@ class Root extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const BoidCanvas(),
+        MouseRegion(
+          onExit: (_) => context.read<BoidManager>().deactivateMouse(),
+          onHover: (detail) => context
+              .read<BoidManager>()
+              .updateDetail(detail.localPosition.dx, detail.localPosition.dy),
+          child: const BoidCanvas(),
+        ),
         const SizedBox(
           height: FOOTER_SIZE,
           child: const Footer(),

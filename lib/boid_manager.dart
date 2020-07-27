@@ -20,6 +20,9 @@ class BoidManager extends ChangeNotifier {
   final double height;
   List<Bird> birds;
   int dislikeDistance = 20;
+  Vector2 mouseCoord = Vector2.zero();
+  double mouseAttractFactor = 0.01;
+  bool onMouse = false;
 
   void next() {
     final accelerations = birds.map((bird) {
@@ -45,8 +48,22 @@ class BoidManager extends ChangeNotifier {
         acceleration.add(Vector2(0, 1));
       }
 
+      if (onMouse) {
+        final direction = mouseCoord - bird.position;
+        acceleration.add(direction / direction.length * mouseAttractFactor);
+      }
+
       bird.update(acceleration);
     }
+  }
+
+  void updateDetail(double dx, double dy) {
+    mouseCoord = Vector2(dx, dy);
+    onMouse = true;
+  }
+
+  void deactivateMouse() {
+    onMouse = false;
   }
 
   void updateDislikeDistance(int value) {
