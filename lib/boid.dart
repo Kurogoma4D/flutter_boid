@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_boid/main.dart';
+import 'package:flutter_boid/boid_manager.dart';
 import 'package:provider/provider.dart';
 
 class BoidPainter extends CustomPainter {
@@ -13,7 +13,12 @@ class BoidPainter extends CustomPainter {
       final paint = Paint()
         ..color = lerped(bird.id)
         ..style = PaintingStyle.fill;
+      final largePaint = Paint()
+        ..color = lerped(bird.id).withOpacity(0.1)
+        ..style = PaintingStyle.fill;
       canvas.drawCircle(Offset(bird.position.x, bird.position.y), 4, paint);
+      canvas.drawCircle(Offset(bird.position.x, bird.position.y),
+          bird.sakuteki.toDouble(), largePaint);
     });
   }
 
@@ -22,6 +27,6 @@ class BoidPainter extends CustomPainter {
 
   Color lerped(int index) {
     return Color.lerp(
-        Color(0xffff0000), Color(0xff00ff00), index / BIRD_NUMBER);
+        Color(0xff0044aa), Color(0xff66ff44), index / BIRD_NUMBER);
   }
 }
