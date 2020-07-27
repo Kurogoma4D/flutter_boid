@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_boid/base_object.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -6,7 +7,7 @@ import 'dart:math' as math;
 final _random = math.Random();
 const BIRD_NUMBER = 40;
 
-class BoidManager {
+class BoidManager extends ChangeNotifier {
   BoidManager({this.width, this.height}) {
     birds = List.generate(BIRD_NUMBER, (index) {
       final x = width * (0.5 + _random.nextDouble()) / 2;
@@ -18,6 +19,7 @@ class BoidManager {
   final double width;
   final double height;
   List<Bird> birds;
+  int dislikeDistance = 20;
 
   void next() {
     final accelerations = birds.map((bird) {
@@ -45,5 +47,13 @@ class BoidManager {
 
       bird.update(acceleration);
     }
+  }
+
+  void updateDislikeDistance(int value) {
+    dislikeDistance = value;
+    birds = [
+      for (final bird in birds) bird..dislikeDistance = value,
+    ];
+    notifyListeners();
   }
 }

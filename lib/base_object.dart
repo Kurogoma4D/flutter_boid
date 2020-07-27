@@ -45,7 +45,7 @@ class Bird extends BaseBirdObject {
 
   final int id;
   final int sakuteki;
-  final int dislikeDistance;
+  int dislikeDistance;
 
   Vector2 nextAcceleration(List<Bird> nearBirds) {
     if (nearBirds.isEmpty) return Vector2.zero();
