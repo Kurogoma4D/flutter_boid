@@ -30,11 +30,10 @@ jobs:
     - run: flutter config --enable-web
     - run: flutter pub get
     - run: flutter build web --release
-    - run: cd build; ls web
-    - name: Publish
-      uses: netlify/actions/cli@master
+    - run: cd build/web
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@master
       with:
-        args: deploy --dir=web --prod
+        args: deploy --only hosting:flutter-boid
       env:
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
