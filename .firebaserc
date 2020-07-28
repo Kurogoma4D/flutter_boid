@@ -6,6 +6,9 @@
     "portfolio-7cf0a": {
       "hosting": {
         "flutter-boid": [
+          "flutter-boid"
+        ],
+        "portfolio-7cf0a": [
           "portfolio-7cf0a"
         ]
       }
