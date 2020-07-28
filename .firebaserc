@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "portfolio-7cf0a"
+  },
+  "targets": {
+    "portfolio-7cf0a": {
+      "hosting": {
+        "flutter-boid": [
+          "portfolio-7cf0a"
+        ]
+      }
+    }
   }
 }
