@@ -14,25 +14,43 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    name: Build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
     
-    - name: Flutter action
-      uses: subosito/flutter-action@v1.3.2
-      with:
-        # The Flutter version to make available on the path
-        channel: 'beta'
-    - run: flutter config --enable-web
-    - run: flutter pub get
-    - run: flutter build web --release
-    - name: Deploy to Firebase
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only hosting:flutter-boid
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Flutter action
+        uses: subosito/flutter-action@v1.3.2
+        with:
+          # The Flutter version to make available on the path
+          channel: 'beta'
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: build
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: build
+          path: build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:flutter-boid
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
